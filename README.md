@@ -1,4 +1,4 @@
-# 🧠 Simple C++ IDE (Single-File Implementation)
+# 🧠 Simple C++ IDE
 
 A minimal **C++ command-line IDE** implemented entirely in a single file (`main.cpp`), demonstrating how compilation, execution, and basic tooling can be built from scratch.
 
