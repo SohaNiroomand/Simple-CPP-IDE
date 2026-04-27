@@ -1,191 +1,47 @@
-# 🧠 Simple C++ IDE
+## Overview
 
-A minimal **C++ command-line IDE** implemented entirely in a single file (`main.cpp`), demonstrating how compilation, execution, and basic tooling can be built from scratch.
+This project is a simple graphical C++ IDE built with **SDL2**.
 
----
+It provides a custom text editor where users can write C++ code, edit multiple lines, move the cursor, select text, copy/paste/cut, undo/redo changes, switch between light and dark mode, and run the written code through `g++`.
 
-## 🚀 Overview
+The editor stores the current file as a list of text lines, renders the code manually using `SDL_ttf`, and applies basic syntax highlighting for keywords, data types, strings, comments, numbers, operators, and brackets.
 
-This project is a simplified implementation of a development environment that:
+The program also includes a basic debugging panel that detects simple syntax issues such as missing semicolons, invalid variable names, unclosed strings, invalid operators, unmatched multiline comments, and repeated `if` conditions.
 
-- Compiles C++ files using GCC  
-- Executes compiled programs  
-- Captures and displays compiler output  
-- Stores compilation logs  
-- Provides a basic command-driven interface  
+## Features
 
-Everything is implemented inside:
+- Graphical editor window using SDL2
+- Syntax highlighting
+- Light and dark mode backgrounds
+- Multi-line text editing
+- Cursor movement with arrow keys
+- Mouse-based cursor positioning
+- Text selection with mouse drag
+- Copy, cut, paste
+- Undo and redo
+- Vertical and horizontal scrolling
+- Auto-completion for brackets: `()`, `{}`, `[]`
+- Save project name list
+- New file button
+- Debug panel for basic syntax checks
+- Compile and run current code using `g++`
+- Run button and `Ctrl + R` shortcut
 
-```
-main.cpp
-```
+## Shortcuts
 
----
+| Shortcut | Action |
+|---|---|
+| `Ctrl + C` | Copy selected text |
+| `Ctrl + V` | Paste copied text |
+| `Ctrl + X` | Cut selected text |
+| `Ctrl + A` | Select all |
+| `Ctrl + Z` | Undo |
+| `Ctrl + Y` | Redo |
+| `Ctrl + S` | Save project name |
+| `Ctrl + G` | Go to line |
+| `Ctrl + R` | Compile and run |
 
-## ⚙️ Features
-
-### 🧾 Command-Based Interface
-
-The program runs as a simple interactive shell:
-
-```
-IDE>
-```
-
-Supported commands:
-
-```
-compile <filename>   Compile a C++ file
-run                  Run compiled program
-runw                 Run in new terminal window
-logs [count]         Show recent logs
-exit                 Exit IDE
-```
-
----
-
-### ⚙️ Compilation System
-
-- Uses `g++` via system calls
-- Captures compiler output (errors/warnings)
-- Determines success/failure automatically
-
-```cpp
-std::string cmd = "g++ " + filename + " -o program.exe 2>&1";
-```
-
----
-
-### 📤 Output Capture
-
-Compiler output is captured using pipes:
-
-```cpp
-FILE* pipe = _popen(cmd.c_str(), "r");
-```
-
----
-
-### 📝 Logging System
-
-Each compilation generates a log entry:
-
-- Timestamp  
-- File name  
-- Status (success/failure)  
-- Compiler output  
-
-Logs are stored in:
-
-```
-logs/compile_log.txt
-```
-
----
-
-### ▶️ Program Execution
-
-Supports two modes:
-
-- Run in current terminal:
-  ```
-  run
-  ```
-- Run in a new window:
-  ```
-  runw
-  ```
-
----
-
-### 🧱 Internal Structure
-
-Even though it's one file, the code is logically structured:
-
-- Command parsing
-- Compilation handler
-- Execution handler
-- Logging system
-- Utility functions
-
-Key structs:
-
-```cpp
-struct CompilerResult;
-struct Command;
-struct CompileLog;
-```
-
----
-
-## 🏗️ Project Structure
-
-```
-.
-├── main.cpp
-└── logs/
-    └── compile_log.txt
-```
-
----
-
-## 🔧 Build & Run
-
-### Compile
+## Build
 
 ```bash
-g++ main.cpp -o ide -std=c++17
-```
-
-### Run
-
-```bash
-./ide
-```
-
----
-
-## 💡 Example Usage
-
-```
-IDE> compile hello.cpp
-Compilation successful!
-
-IDE> run
-Hello, World!
-
-IDE> logs 3
-```
-
----
-
-## 🧠 What This Project Shows
-
-- OS interaction in C++
-- Integrating compilers into tools
-- CLI-based program design
-- Process output handling
-
----
-
-## ⚠️ Limitations
-
-- No GUI  
-- No text editor  
-- Windows-specific parts (`_popen`, `.exe`)  
-- Basic functionality only  
-
----
-
-## 🚀 Possible Improvements
-
-- Modularize into multiple files
-- Cross-platform support
-- Add editor (SDL / ncurses)
-- Improve error handling
-
----
-
-## 💬 Final Note
-
-This project focuses on understanding how development tools work internally rather than building a full-featured IDE.
+g++ main.cpp -o editor -lSDL2 -lSDL2_ttf -lSDL2_image
