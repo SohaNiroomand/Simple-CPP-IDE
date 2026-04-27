@@ -1,102 +1,64 @@
-# 🧠 Simple C++ IDE (Educational Project)
+# 🧠 Simple C++ IDE (Single-File Implementation)
 
-A lightweight **C++ IDE built from scratch**, designed to understand how real development environments work under the hood.
-
-This project was developed as the final assignment for the *Fundamentals of Programming (C++)* course at Sharif University of Technology.
+A minimal **C++ command-line IDE** implemented entirely in a single file (`main.cpp`), demonstrating how compilation, execution, and basic tooling can be built from scratch.
 
 ---
 
-## 🚀 What is this?
+## 🚀 Overview
 
-This project implements a **mini IDE** with core features of real tools like CLion:
+This project is a simplified implementation of a development environment that:
 
-- Text editing
-- Syntax highlighting
-- File management
-- Keyboard shortcuts
-- Basic debugging
-- Compilation & execution using GCC
+- Compiles C++ files using GCC  
+- Executes compiled programs  
+- Captures and displays compiler output  
+- Stores compilation logs  
+- Provides a basic command-driven interface  
 
-The goal is not to compete with real IDEs — it’s to **build one from scratch and actually understand it**.
+Everything is implemented inside:
 
----
-
-## 🧩 Features
-
-### ✏️ Text Editor (Core)
-
-- Multi-line text editing
-- Cursor movement & control
-- Scroll handling for large files
-- Efficient rendering (only visible lines)
-
-```cpp
-std::vector<std::string> lines;
+```
+main.cpp
 ```
 
 ---
 
-### 🎨 Syntax Highlighting
+## ⚙️ Features
 
-Supports basic C++ syntax coloring:
+### 🧾 Command-Based Interface
 
-- Keywords (`if`, `while`, `class`)
-- Types (`int`, `float`)
-- Functions
-- Variables
-- Strings & numbers
-- Comments
+The program runs as a simple interactive shell:
 
-Includes:
-- Light mode
-- Dark mode
-
----
-
-### 💾 File Management
-
-- Save projects with custom names
-- Project list (tree-style)
-- Load existing projects
-
----
-
-### ⌨️ Keyboard Shortcuts
-
-| Shortcut | Action |
-|--------|--------|
-| Ctrl + C | Copy |
-| Ctrl + V | Paste |
-| Ctrl + X | Cut |
-| Ctrl + A | Select All |
-| Ctrl + Z | Undo |
-| Ctrl + S | Save |
-| Ctrl + G | Go to Line |
-
----
-
-### 🐞 Debugging (Static Analysis)
-
-Detects basic syntax errors:
-
-- Missing `;`
-- Unmatched brackets
-- Misspelled keywords
-- Invalid operators
-- Undefined variables
-- String errors
-
----
-
-### ⚙️ Compiler Integration
-
-Uses GCC via system calls:
-
-```cpp
-system("g++ file.cpp -o program.exe");
+```
+IDE>
 ```
 
-Captures output:
+Supported commands:
+
+```
+compile <filename>   Compile a C++ file
+run                  Run compiled program
+runw                 Run in new terminal window
+logs [count]         Show recent logs
+exit                 Exit IDE
+```
+
+---
+
+### ⚙️ Compilation System
+
+- Uses `g++` via system calls
+- Captures compiler output (errors/warnings)
+- Determines success/failure automatically
+
+```cpp
+std::string cmd = "g++ " + filename + " -o program.exe 2>&1";
+```
+
+---
+
+### 📤 Output Capture
+
+Compiler output is captured using pipes:
 
 ```cpp
 FILE* pipe = _popen(cmd.c_str(), "r");
@@ -104,16 +66,54 @@ FILE* pipe = _popen(cmd.c_str(), "r");
 
 ---
 
-### ▶️ Run & Logs
+### 📝 Logging System
 
-Commands:
+Each compilation generates a log entry:
+
+- Timestamp  
+- File name  
+- Status (success/failure)  
+- Compiler output  
+
+Logs are stored in:
 
 ```
-compile main.cpp
-run
-runw
-logs 5
-exit
+logs/compile_log.txt
+```
+
+---
+
+### ▶️ Program Execution
+
+Supports two modes:
+
+- Run in current terminal:
+  ```
+  run
+  ```
+- Run in a new window:
+  ```
+  runw
+  ```
+
+---
+
+### 🧱 Internal Structure
+
+Even though it's one file, the code is logically structured:
+
+- Command parsing
+- Compilation handler
+- Execution handler
+- Logging system
+- Utility functions
+
+Key structs:
+
+```cpp
+struct CompilerResult;
+struct Command;
+struct CompileLog;
 ```
 
 ---
@@ -121,42 +121,71 @@ exit
 ## 🏗️ Project Structure
 
 ```
-project/
-├── src/
-├── include/
-├── logs/
-└── README.md
+.
+├── main.cpp
+└── logs/
+    └── compile_log.txt
 ```
 
 ---
 
 ## 🔧 Build & Run
 
+### Compile
+
 ```bash
 g++ main.cpp -o ide -std=c++17
+```
+
+### Run
+
+```bash
 ./ide
 ```
 
 ---
 
-## 🧠 What You Learn
+## 💡 Example Usage
 
-- How text editors work
-- How IDEs interact with compilers
-- File & state management
-- OS interaction in C++
-- System-level programming basics
+```
+IDE> compile hello.cpp
+Compilation successful!
+
+IDE> run
+Hello, World!
+
+IDE> logs 3
+```
 
 ---
 
-## 🧑‍💻 Course Info
+## 🧠 What This Project Shows
 
-Sharif University of Technology  
-Fundamentals of Programming (C++)  
-Fall 2024  
+- OS interaction in C++
+- Integrating compilers into tools
+- CLI-based program design
+- Process output handling
+
+---
+
+## ⚠️ Limitations
+
+- No GUI  
+- No text editor  
+- Windows-specific parts (`_popen`, `.exe`)  
+- Basic functionality only  
+
+---
+
+## 🚀 Possible Improvements
+
+- Modularize into multiple files
+- Cross-platform support
+- Add editor (SDL / ncurses)
+- Improve error handling
 
 ---
 
 ## 💬 Final Note
 
-This project is about understanding how tools are built — not just using them.
+This project focuses on understanding how development tools work internally rather than building a full-featured IDE.
