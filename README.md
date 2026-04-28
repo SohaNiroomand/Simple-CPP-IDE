@@ -45,3 +45,8 @@ The program also includes a basic debugging panel that detects simple syntax iss
 
 ```bash
 g++ main.cpp -o editor -lSDL2 -lSDL2_ttf -lSDL2_image
+```
+## Collaborators
+
+- Soha Niroomand
+- Mohammad Mahdi Goudarzi
